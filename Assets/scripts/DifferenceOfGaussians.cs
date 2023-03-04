@@ -2,53 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DifferenceOfGaussians : IImageProcessor
+[CreateAssetMenu(fileName = "Image Processors", menuName = "Difference of Gaussians", order = 1)]
+public class DifferenceOfGaussians : ImageProcessor
 {
     const string SHADER_NAME = "Unlit/DoG";
 
-    public int pixelRadius { get; private set; }
-    public float standardDev1 { get; private set; }
-    public float standardDev2 { get; private set; }
+    [Range(1,9)]
+    public int pixelRadius;
+    public float standardDev1;
+    public float standardDev2;
 
     private Material postProcessingMaterial;
 
-    public DifferenceOfGaussians(int _pixelRadius = 3, float _standardDev1 = 1, float _standardDev2 = 2)
-    {
-        pixelRadius = _pixelRadius;
-        standardDev1 = _standardDev1;
-        standardDev2 = _standardDev2;
-
-        InitializeMaterial();
-    }
-
-    /// <summary>
-    /// Updates the Pixel Radius used in Gaussian Calculations
-    /// </summary>
-    /// <param name="newPixelRadius"></param>
-    public void SetPixelRadius(int newPixelRadius)
-    {
-        pixelRadius = newPixelRadius;
-        InitializeMaterial();
-    }
-
-    /// <summary>
-    /// Updates the Standard Deviations used in Gaussian Calculations
-    /// </summary>
-    /// <param name="newStandardDev"></param>
-    public void SetStandardDeviation(float newStandardDev1, float newStandardDev2)
-    {
-        standardDev1 = newStandardDev1;
-        standardDev2 = newStandardDev2;
-        InitializeMaterial();
-    }
-
-    public void Process(RenderTexture src, RenderTexture dest)
+    public override void Process(RenderTexture src, RenderTexture dest)
     {
         // Apply the shader
         Graphics.Blit(src, dest, postProcessingMaterial);
     }
 
-    public void InitializeMaterial()
+    public override void InitializeMaterial()
     {
         postProcessingMaterial = new Material(Shader.Find(SHADER_NAME));
         // Create matrices
@@ -82,8 +54,6 @@ public class DifferenceOfGaussians : IImageProcessor
         postProcessingMaterial.SetFloatArray("_Matrix1", matrix1);
         postProcessingMaterial.SetFloatArray("_Matrix2", matrix2);
         postProcessingMaterial.SetFloat("_Kernel_Radius", pixelRadius);
-
-        Debug.Log("Initialized Difference of Gaussians Material!");
     }
 
     /// <summary>

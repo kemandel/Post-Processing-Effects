@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faa4fc42d5bc7a84aaf544b24ebb2dd2, type: 3}
+  m_Name: PixelSwap
+  m_EditorClassIdentifier: 
+  palette:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 1, g: 1, b: 1, a: 0}
+  - {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 0}
+  - {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0}
+  - {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 0}
+  - {r: 0.8962264, g: 0.75671947, b: 0.75671947, a: 0}
+  - {r: 0.6594874, g: 0.6781327, b: 0.7169812, a: 0}
+  - {r: 0.14927721, g: 0.24528301, b: 0.11222855, a: 0}
+  - {r: 0.3679245, g: 0.26239145, b: 0.25858846, a: 0}

@@ -2,23 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grayscale : IImageProcessor
+[CreateAssetMenu(fileName = "Image Processors", menuName = "Grayscale", order = 1)]
+public class Grayscale : ImageProcessor
 {
     const string SHADER_NAME = "Unlit/Grayscale";
 
     private Material postProcessingMaterial;
 
-    public Grayscale()
+    private void OnEnable()
     {
         InitializeMaterial();
     }
 
-    public void Process(RenderTexture src, RenderTexture dest)
+    public override void Process(RenderTexture src, RenderTexture dest)
     {
         Graphics.Blit(src, dest, postProcessingMaterial);
     }
 
-    public void InitializeMaterial()
+    public override void InitializeMaterial()
     {
         postProcessingMaterial = new Material(Shader.Find(SHADER_NAME));
     }

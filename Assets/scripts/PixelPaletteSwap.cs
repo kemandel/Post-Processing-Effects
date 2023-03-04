@@ -2,26 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PixelPaletteSwap : IImageProcessor
+[CreateAssetMenu(fileName = "Image Processors", menuName = "Pixel Palette Swap", order = 1)]
+public class PixelPaletteSwap : ImageProcessor
 {
     const string SHADER_NAME = "Hidden/PixelSwap";
 
-    public Color[] palette { get; private set; }
+    public Color[] palette;
 
     private Material postProcessingMaterial;
 
-    public PixelPaletteSwap()
+    private void OnEnable() 
     {
-        // By defualt use a palette of just black and white
-        palette = new Color[] {new Color(255,255,255,0), new Color(0,0,0,1)};
-
         InitializeMaterial();
     }
 
-    public PixelPaletteSwap(Color[] _palette)
+    private void OnValidate()
     {
-        palette = _palette;
-
         InitializeMaterial();
     }
 
@@ -49,13 +45,13 @@ public class PixelPaletteSwap : IImageProcessor
         InitializeMaterial();
     }
 
-    public void Process(RenderTexture src, RenderTexture dest)
+    public override void Process(RenderTexture src, RenderTexture dest)
     {
         // Apply the shader
         Graphics.Blit(src, dest, postProcessingMaterial);
     }
 
-    public void InitializeMaterial()
+    public override void InitializeMaterial()
     {
         postProcessingMaterial = new Material(Shader.Find(SHADER_NAME));
         List<Vector4> initPalette = new List<Vector4>(new Vector4[255]);

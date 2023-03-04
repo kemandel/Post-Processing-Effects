@@ -2,23 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Invert : IImageProcessor
+[CreateAssetMenu(fileName = "Image Processors", menuName = "Invert", order = 1)]
+public class Invert : ImageProcessor
 {
     const string SHADER_NAME = "Unlit/Invert";
 
     private Material postProcessingMaterial;
 
-    public Invert()
+    private void OnEnable()
     {
         InitializeMaterial();
     }
 
-    public void Process(RenderTexture src, RenderTexture dest)
+    public override void Process(RenderTexture src, RenderTexture dest)
     {
         Graphics.Blit(src, dest, postProcessingMaterial);
     }
 
-    public void InitializeMaterial()
+    public override void InitializeMaterial()
     {
         postProcessingMaterial = new Material(Shader.Find(SHADER_NAME));
     }

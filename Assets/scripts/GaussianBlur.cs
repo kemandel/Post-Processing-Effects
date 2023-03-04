@@ -2,20 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GaussianBlur : IImageProcessor
+[CreateAssetMenu(fileName = "Image Processors", menuName = "Gaussian Blur", order = 1)]
+public class GaussianBlur : ImageProcessor
 {
     const string SHADER_NAME = "Unlit/GaussianBlur";
 
-    public int pixelRadius { get; private set; }
-    public float standardDev { get; private set; }
+    [Range(1,9)]
+    public int pixelRadius;
+    public float standardDev;
 
     private Material postProcessingMaterial;
 
-    public GaussianBlur(int _pixelRadius = 3, float _standardDev = 30)
+    private void OnEnable() 
     {
-        pixelRadius = _pixelRadius;
-        standardDev = _standardDev;
+        InitializeMaterial();
+    }
 
+    private void OnValidate() {
         InitializeMaterial();
     }
 
@@ -39,12 +42,12 @@ public class GaussianBlur : IImageProcessor
         InitializeMaterial();
     }
 
-    public void Process(RenderTexture src, RenderTexture dest)
+    public override void Process(RenderTexture src, RenderTexture dest)
     {
         Graphics.Blit(src, dest, postProcessingMaterial);
     }
 
-    public void InitializeMaterial()
+    public override void InitializeMaterial()
     {
         postProcessingMaterial = new Material(Shader.Find(SHADER_NAME));
 
@@ -73,8 +76,6 @@ public class GaussianBlur : IImageProcessor
         // Pass shader data
         postProcessingMaterial.SetFloatArray("_Matrix", matrix);
         postProcessingMaterial.SetFloat("_Kernel_Radius", pixelRadius);
-
-        Debug.Log("Initialized Gaussian Blur Material!");
     }
 
     /// <summary>
