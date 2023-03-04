@@ -617,7 +617,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   processorStack:
-  - {fileID: 11400000, guid: 3b5ab21451357fb40b02dadbeea59548, type: 2}
-  - {fileID: 11400000, guid: d4ad79633dc96ed4093b5f3acc7ee66d, type: 2}
-  - {fileID: 11400000, guid: cf0ba059815fb1940ba54004737c5a7b, type: 2}
   - {fileID: 11400000, guid: 53ed17248ec0d1d4f918fa9cca5526b2, type: 2}

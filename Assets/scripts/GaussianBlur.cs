@@ -13,15 +13,6 @@ public class GaussianBlur : ImageProcessor
 
     private Material postProcessingMaterial;
 
-    private void OnEnable() 
-    {
-        InitializeMaterial();
-    }
-
-    private void OnValidate() {
-        InitializeMaterial();
-    }
-
     /// <summary>
     /// Updates the Pixel Radius used in Gaussian Calculations
     /// </summary>

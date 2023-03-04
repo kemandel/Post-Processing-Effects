@@ -3,7 +3,6 @@ Shader "Hidden/PixelSwap"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _PixelScale ("Pixel Scale", Integer) = 1
     }
     SubShader
     {
@@ -49,7 +48,6 @@ Shader "Hidden/PixelSwap"
             float4 _MainTex_TexelSize;
             float4 _Colors[255];
             float _Colors_Amount;
-            int _PixelScale;
 
             float4 apply_palette (float lum) 
             {
@@ -63,25 +61,16 @@ Shader "Hidden/PixelSwap"
                 
                 float ditherSpread = 1.0/( _Colors_Amount);
 
-                // https://luka712.github.io/2018/07/01/Pixelate-it-Shadertoy-Unity/
                 float pixelSizeX = 1.0 / _MainTex_TexelSize.z;
                 float pixelSizeY = 1.0 / _MainTex_TexelSize.w;
-                float cellSizeX = pow(2.0, float(_PixelScale)) * pixelSizeX;
-                float cellSizeY = pow(2.0, float(_PixelScale)) * pixelSizeY;
-
-                // Convert pixel coordinates to cell coordinates
-                float u = cellSizeX * floor(i.uv.x / cellSizeX);
-                float v = cellSizeY * floor(i.uv.y / cellSizeY);
                 
-
                 // get pixel information from the cell coordinates
-                fixed4 col = tex2D(_MainTex, float2(u, v));
-
+                fixed4 col = tex2D(_MainTex, i.uv);
 
                 // https://en.wikipedia.org/wiki/Ordered_dithering
                 int n = 4;
-                int x = int(u / cellSizeX) % n;
-                int y = int(v / cellSizeY) % n;
+                int x = int(i.uv.x / pixelSizeX) % n;
+                int y = int(i.uv.y / pixelSizeY) % n;
                 float M = bayer4[x][y] * (1.0/(n*n)) - .5;
                 col = col + (M * ditherSpread);
                 col = floor(col * (_Colors_Amount-1) + .5)/(_Colors_Amount-1);

@@ -9,11 +9,6 @@ public class Grayscale : ImageProcessor
 
     private Material postProcessingMaterial;
 
-    private void OnEnable()
-    {
-        InitializeMaterial();
-    }
-
     public override void Process(RenderTexture src, RenderTexture dest)
     {
         Graphics.Blit(src, dest, postProcessingMaterial);

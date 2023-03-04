@@ -8,18 +8,9 @@ public class PixelPaletteSwap : ImageProcessor
     const string SHADER_NAME = "Hidden/PixelSwap";
 
     public Color[] palette;
+    public int pixelScale;
 
     private Material postProcessingMaterial;
-
-    private void OnEnable() 
-    {
-        InitializeMaterial();
-    }
-
-    private void OnValidate()
-    {
-        InitializeMaterial();
-    }
 
     /// <summary>
     /// Adds a color to the palette
@@ -47,8 +38,13 @@ public class PixelPaletteSwap : ImageProcessor
 
     public override void Process(RenderTexture src, RenderTexture dest)
     {
-        // Apply the shader
-        Graphics.Blit(src, dest, postProcessingMaterial);
+        // Downscales the image by 2 to the power pixelScale times
+        src.filterMode = FilterMode.Point;
+        RenderTexture buffer = RenderTexture.GetTemporary((int)(src.width / Mathf.Pow(2,pixelScale)), (int)(src.height / Mathf.Pow(2,pixelScale)), 0, src.format);
+        buffer.filterMode = FilterMode.Point;
+        Graphics.Blit(src,buffer);
+        Graphics.Blit(buffer, dest, postProcessingMaterial);
+        RenderTexture.ReleaseTemporary(buffer);
     }
 
     public override void InitializeMaterial()
