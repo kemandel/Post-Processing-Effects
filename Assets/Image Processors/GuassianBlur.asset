@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24e4281c439b1b43922d75c315da3dc, type: 3}
   m_Name: GuassianBlur
   m_EditorClassIdentifier: 
-  pixelRadius: 9
+  pixelRadius: 2
   standardDev: 1
