@@ -20,9 +20,9 @@ Shader "Unlit/WeightedMedianFilter"
 
             // Gaussian kernel
             static const float3x3 kernel = {
-                { 1, 2, 1},
-                { 2, 4, 2},
-                { 1, 2, 1}
+                { 1, 2, 1 },
+                { 2, 4, 2 },
+                { 1, 2, 1 }
             };
 
             static float new_kernel_r[9] = {0,0,0,0,0,0,0,0,0};
@@ -78,15 +78,17 @@ Shader "Unlit/WeightedMedianFilter"
                         float v = float(pixelPosY + y - 1) / float(_MainTex_TexelSize.w); // height
                         u = clamp(u, 0.0, 1.0);
                         v = clamp(v, 0.0, 1.0);
-                        new_kernel_r[y*3 + x] = tex2D(_MainTex, float2(u, v)).x * kernel[y][x] * (1/16);
-                        new_kernel_g[y*3 + x] = tex2D(_MainTex, float2(u, v)).y * kernel[y][x] * (1/16);
-                        new_kernel_b[y*3 + x] = tex2D(_MainTex, float2(u, v)).z * kernel[y][x] * (1/16);
+                        new_kernel_r[y*3 + x] = tex2D(_MainTex, float2(u, v)).x * kernel[y][x];
+                        new_kernel_g[y*3 + x] = tex2D(_MainTex, float2(u, v)).y * kernel[y][x];
+                        new_kernel_b[y*3 + x] = tex2D(_MainTex, float2(u, v)).z * kernel[y][x];
                     };
                 };
+                
                 sort(new_kernel_r);
                 sort(new_kernel_g);
                 sort(new_kernel_b);
-                return float3(new_kernel_r[5], new_kernel_g[5], new_kernel_b[5]);
+                
+                return float3(new_kernel_r[4], new_kernel_g[4], new_kernel_b[4]);
             }
 
             fixed4 frag (v2f i) : SV_Target
