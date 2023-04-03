@@ -829,7 +829,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testScripts: 1
-  testRuntime: 10
+  testRuntime: 3
 --- !u!4 &1335058422
 Transform:
   m_ObjectHideFlags: 0
